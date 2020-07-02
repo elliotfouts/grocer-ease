@@ -2,7 +2,6 @@ const {Grocery} = require('../models');
 
 // create methods
 const addGrocery = async (grocery) => {
-  // grocery format: { name, category, imageUrl, isCurrent, quantity, notes, users[] }
   try {
     let newGrocery = await Grocery.create(grocery);
     return newGrocery;
@@ -28,9 +27,9 @@ const getCurrentGroceries = async () => {
     console.log(error)
   }
 }
-const getSearchedGroceries = async (groceryName) => {
+const getSearchedGroceries = async (query) => {
   try {
-    const grocery = await Grocery.findOne({ "name" : { $regex: new RegExp(`${groceryName}`), $options: 'i' } });
+    const grocery = await Grocery.find(query);
     return grocery;
   } catch (err) {
     console.log(err);

@@ -17,6 +17,7 @@ const GrocerySchema = new mongoose.Schema({
   isCurrent: {
     type: Boolean,
     required: true,
+    default: true
   },
   quantity: String,
   note: String,
