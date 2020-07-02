@@ -1,4 +1,5 @@
 const {Grocery} = require('../models');
+const dropUndefined = require('../utils/dropUndefined');
 
 // create methods
 const addGrocery = async (grocery) => {
@@ -39,9 +40,8 @@ const getSearchedGroceries = async (query) => {
 // update methods 
 const updateGrocery = async (groceryInfo, groceryId) => {
   try {
-    groceryInfo.set.size = groceryInfo.random;
-    const {set: $set, unset: $unset, push: $push, $pull} = groceryInfo;
-    const updateQuery = dropUndefined({$set, $unset, $push, $pull});
+    const {set: $set, unset: $unset, push: $push, pull: $pull, pullAll: $pullAll} = groceryInfo;
+    const updateQuery = dropUndefined({$set, $unset, $push, $pull, $pullAll});
 
     const updatedGrocery = await Grocery.findByIdAndUpdate(groceryId, updateQuery, {new: true});
     return updatedGrocery;
