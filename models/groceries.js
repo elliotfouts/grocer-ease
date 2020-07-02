@@ -28,4 +28,4 @@ const GrocerySchema = new mongoose.Schema({
 
 const Grocery = mongoose.model('grocery', GrocerySchema);
 
-export default Grocery;
+module.exports = Grocery;
