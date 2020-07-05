@@ -19,6 +19,8 @@ const GrocerySchema = new mongoose.Schema({
     required: true,
     default: true
   },
+  frequency: Number,
+  brand: String,
   quantity: String,
   note: String,
   users: {

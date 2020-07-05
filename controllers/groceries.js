@@ -42,7 +42,6 @@ const updateGrocery = async (groceryInfo, groceryId) => {
   try {
     const {set: $set, unset: $unset, push: $push, pull: $pull, pullAll: $pullAll} = groceryInfo;
     const updateQuery = dropUndefined({$set, $unset, $push, $pull, $pullAll});
-
     const updatedGrocery = await Grocery.findByIdAndUpdate(groceryId, updateQuery, {new: true});
     return updatedGrocery;
   } catch (err) {

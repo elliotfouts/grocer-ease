@@ -146,10 +146,10 @@ router.put('/groceries/:_id/quantity', async (request, response) => {
     response.status(500).json({error: 'Oops! Something went wrong; a team on ninjas is on it'})
   }
 });
-router.put('/groceries/:_id/status', async (request, response) => {
+router.put('/groceries/:_id/removecurrent', async (request, response) => {
   try {
-    const {body: {isCurrent}, params: {_id}} = request;
-    const updatedGrocery = await updateGrocery({set: {isCurrent}}, _id);
+    const {body: {isCurrent, quantity, note}, params: {_id}} = request;
+    const updatedGrocery = await updateGrocery({set: {isCurrent, quantity, note}}, _id);
 
     if (updatedGrocery)
       response.json(updatedGrocery);
