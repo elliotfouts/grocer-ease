@@ -12,9 +12,6 @@ function App() {
     <Router>
       <Navbar>
         <Switch>
-          <Route exact path='/login'>
-            <LoginPage/>
-          </Route>
           <Route exact path='/groceries/search'>
             <SearchPage/>
           </Route>
@@ -23,6 +20,9 @@ function App() {
           </Route>
           <Route exact path='/groceries'>
             <ListPage/>
+          </Route>
+          <Route exact path='/*'>
+            <LoginPage/>
           </Route>
         </Switch>
       </Navbar>

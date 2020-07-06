@@ -5,14 +5,14 @@ import AddIcon from '@material-ui/icons/Add';
 import {Styles} from '../styles';
 
 export const ButtonPrimary = (props) => {
-  let { styles, children, endIcon} = props;
+  let { styles, children, endIcon, onClick} = props;
   styles={
     ...styles,
     backgroundColor: '#FFCB74', 
     width: 'fit-content', 
     color: '#000000'
   }
-  return (<Button style={styles} endIcon={endIcon} variant="contained">{children}</Button>)
+  return (<Button style={styles} onClick={onClick} endIcon={endIcon} variant="contained">{children}</Button>)
 }
 
 export const ButtonFloatingAction = (props) => {
