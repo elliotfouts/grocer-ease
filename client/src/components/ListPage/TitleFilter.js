@@ -28,7 +28,7 @@ const Title = (props) => {
   return (
     <div>
       <Grid container justify='space-between' alignItems='flex-end'>
-        <h1 className={importedClasses.title}>List</h1>
+        <h1 className={importedClasses.title}>Grocery List</h1>
         <p onClick={toggleFilters}>filter</p>
       </Grid>
       <Divider className={classes.divider}/>

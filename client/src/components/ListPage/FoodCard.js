@@ -2,14 +2,16 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
+import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/styles';
 import {Styles} from '../styles';
 
 const useStyles = makeStyles({
   root: {
-      marginBottom: '0.25rem',
-      padding: '0.5rem',
       width: '100%',
+  },
+  card: {
+    padding: '0.5rem',
   },
   foodInfo: {
     maxWidth: '70%',
@@ -42,7 +44,7 @@ const FoodCard = (props) => {
 
   return (
     <a className={`${importedClasses.link} ${classes.root}`} href={`/groceries/${_id}?iscurrent=true&source=listpage`}>
-      <Card>
+      <Card className={classes.card}>
         <Grid container alignItems='center' justify='space-between'>
           <div className={classes.foodInfo}>
             <h1>{brand} {name} ({quantity})</h1>
@@ -52,6 +54,7 @@ const FoodCard = (props) => {
           <img className={classes.image} src={imageUrl}/>
         </Grid>
       </Card>
+      <Divider/> 
     </a>
   )
 }

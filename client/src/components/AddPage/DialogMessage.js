@@ -26,7 +26,7 @@ const DialogSuggested = (props) => {
 
   return (
     <div>
-      <DialogTitle id="alert-dialog-title">{(suggestedGroceries)?"Are any of these what you are looking for?":"Please choose a picture?"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{(suggestedGroceries)?"Is this what you're looking for?":"Please choose a picture?"}</DialogTitle>
       <DialogContent>
         { (suggestedGroceries)
         && suggestedGroceries.map(suggestion => {
@@ -47,7 +47,7 @@ const DialogSuggested = (props) => {
       <DialogActions>
         {(suggestedGroceries) 
           ? <Button className={classes.dialogueButton} onClick={onClose}>
-              Close
+              No it's not
             </Button>
           : <Button className={classes.dialogueButton} onClick={onClose}>
               No Picture

@@ -6,53 +6,46 @@ import {getCurrentGroceries, removeGrocery} from '../../utils/API';
 import {SwipeToDelete} from '../Modified/Swipeout';
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import Loading from '../Loading';
+import {makeStyles} from '@material-ui/styles';
 
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: 'red',
+  }
+})
 
 const ListPage = () => {
   const [groceryList, setGroceryList] = useState([]);
   const [empty, setEmpty] = useState(false);
-  const [hasSwiped, setHasSwiped] = useState(false)
   const importedClasses = Styles();
+  const classes = useStyles();
 
   useEffect(() => {
-    (async() => {
+    updateGroceryList();
+    }, []);
+  
+  const updateGroceryList = async () => {
       const groceries = await getCurrentGroceries();
       if (groceries.length > 0) {
         setGroceryList(groceries);
       } else {
         setEmpty(true);
       }
-    })();
-    }, [hasSwiped]);
-  
-
+  }
   const handleDelete = async (id) => {
-    console.log(`delete: ${id}`);
-    removeGrocery(id);
-    setGroceryList(await getCurrentGroceries());
+    await removeGrocery(id);
+    updateGroceryList();
     }
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   return (
     <div>
       <Title/>
-      <SwipeableList>
+      <SwipeableList className={classes.root}>
       {empty
       ? <h1 style={{textAlign: 'center', marginTop: '1rem'}} className={importedClasses.subTitle}>The list is empty<br/> Thank you Mom!</h1>
       : ((groceryList.length > 0)
         ? groceryList.map((grocery) => {
           return (
-            <SwipeToDelete onSwipeRight={()=>{handleDelete(grocery._id); setHasSwiped(true)}}>
+            <SwipeToDelete onSwipeRight={()=>handleDelete(grocery._id)}>
                 <FoodCard key={grocery._id} foodInfo={grocery}/>
             </SwipeToDelete>
           )})

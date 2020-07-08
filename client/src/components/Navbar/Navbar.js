@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import ListIcon from '@material-ui/icons/List';
+import CartIcon from '@material-ui/icons/ShoppingCart';
 import {makeStyles} from '@material-ui/styles';
 import {Styles} from '../styles';
 
@@ -33,7 +34,7 @@ const Navbar = () => {
         </a>
         <a href='/groceries'>
         <IconButton aria-label="list">
-          <ListIcon />
+          <CartIcon />
         </IconButton>
         </a>
       </div>

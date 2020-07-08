@@ -9,13 +9,12 @@ export const SwipeToDelete = (props) => {
   const {children, onSwipeRight} = props;
   return (
   <SwipeableListItem
-    style={{backgroundColor: 'transparent'}}
+    style={{backgroundColor: 'red'}}
     swipeRight={{
       content: <div style={{color: 'red'}}><TrashIcon/></div>,
       action: onSwipeRight,
       actionAnimation: ActionAnimations.REMOVE,
     }}
-    onSwipeProgress={progress => console.info(`Swipe progress: ${progress}%`)}
   >
     {children}
   </SwipeableListItem>

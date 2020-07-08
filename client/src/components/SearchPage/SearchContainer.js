@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
   searchResultsTerm: {
     fontSize: '1rem',
-    color: '#07031A50',
+    color: '#07031A',
     marginBottom: '1rem',
     fontWeight: '400',
     '& span': {
