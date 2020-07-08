@@ -11,6 +11,8 @@ import Loading from '../Loading';
 const ListPage = () => {
   const [groceryList, setGroceryList] = useState([]);
   const [empty, setEmpty] = useState(false);
+  const [hasSwiped, setHasSwiped] = useState(false)
+  const importedClasses = Styles();
 
   useEffect(() => {
     (async() => {
@@ -21,16 +23,26 @@ const ListPage = () => {
         setEmpty(true);
       }
     })();
-  }, []);
+    }, [hasSwiped]);
   
-  const importedClasses = Styles();
 
   const handleDelete = async (id) => {
     console.log(`delete: ${id}`);
     removeGrocery(id);
     setGroceryList(await getCurrentGroceries());
-  }
+    }
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   return (
     <div>
       <Title/>
@@ -40,7 +52,7 @@ const ListPage = () => {
       : ((groceryList.length > 0)
         ? groceryList.map((grocery) => {
           return (
-            <SwipeToDelete onSwipeRight={()=>handleDelete(grocery._id)}>
+            <SwipeToDelete onSwipeRight={()=>{handleDelete(grocery._id); setHasSwiped(true)}}>
                 <FoodCard key={grocery._id} foodInfo={grocery}/>
             </SwipeToDelete>
           )})

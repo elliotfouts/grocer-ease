@@ -25,8 +25,8 @@ function App() {
           <Route exact path='/groceries'>
             <ListPage/>
           </Route>
-          <Route exact path='/loading'>
-            <Loading/>
+          <Route exact path='/*'>
+            <LoginPage/>
           </Route>
         </Switch>
       </Navbar>

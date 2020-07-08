@@ -29,43 +29,22 @@ router.get('/groceries/current', async (request, response) => {
 });
 router.get('/groceries/suggestimages', async (request, response) => {
   const { query: {brand, name, category}} = request;
-
+  
   const google = new Scraper({
     puppeteer: {
       headless: true,
     }
   });
+
   try {
-    let suggestedImages;
-    switch(category) {
-      case 'produce': {
-        suggestedImages = await google.scrape(`${brand} ${name} produce walmart`, 6);
-        break;
-      }
-      case 'dry snacks': 
-      case 'meat':
-      case 'dairy/eggs':
-      case 'baking/spices': 
-      case 'beverages': 
-      case 'personal care':
-      case 'other': {
-        let googleQuery;
-        console.log(typeof brand)
+    let googleQuery;
+    if (brand == 'undefined') 
+      googleQuery = `${name} walmart`;
+    else 
+      googleQuery = `${brand} ${name} walmart`;
 
-        if (brand == 'undefined') {
-          googleQuery = `${name} walmart`;
-          console.log('brand query', googleQuery);
-        } else {
-          googleQuery = `${brand} ${name} walmart`;
-          console.log('brand query', googleQuery);
-        }
-        
+    const suggestedImages = await google.scrape(googleQuery, 6);
 
-        suggestedImages = await google.scrape(googleQuery, 6);
-        break;
-      }
-    }
-    
     if (suggestedImages) 
       response.json(suggestedImages)
     else 

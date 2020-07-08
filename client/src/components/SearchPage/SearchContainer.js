@@ -28,28 +28,37 @@ const SearchContainer = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [groceries, setGroceries] = useState([]);
   const [searchedGroceries, setSearchedGroceries] = useState([]);
+  const [empty, setEmpty] = useState(false);
+
   const classes = useStyles();
   const importedClasses = Styles();
 
   const handleInputChange = (event) => {
+    setEmpty(false);
     setSearchTerm(event.target.value);
-  } 
-
+    } 
   useEffect(()=> {
     (async()=>{
       let groceryList = await getGroceries();
       setGroceries(groceryList);
       setSearchedGroceries(groceryList);
     })();
-  }, []);
+    }, []);
 
   useEffect(()=>{
-    const filteredResults = groceries.filter(grocery => {
-      const groceryName = `${grocery.brand && grocery.brand.toLowerCase()} ${grocery.name.toLowerCase()}`;
-      return groceryName.includes(searchTerm.toLowerCase())
-    });
-    setSearchedGroceries(filteredResults);
-  }, [searchTerm]);
+    if (searchTerm !== '') {
+      const filteredResults = groceries.filter(grocery => {
+        const groceryName = `${grocery.brand && grocery.brand.toLowerCase()} ${grocery.name.toLowerCase()}`;
+        return groceryName.includes(searchTerm.toLowerCase())
+      });
+
+      if (filteredResults.length === 0) {
+        console.log('no search results');
+        setEmpty(true);
+      }
+      setSearchedGroceries(filteredResults);
+      }
+    }, [searchTerm]);
 
   
   return (
@@ -57,7 +66,11 @@ const SearchContainer = () => {
       <InputOutlined value={searchTerm} onChange={handleInputChange} placeholder={'search for a food...'} icon={<SearchIcon/>}/>
 
       <h2 className={classes.searchResultsTerm}> 
-        {(searchTerm) ? (`Showing results for ${searchTerm}`) :'Popular Items'}
+        {(searchTerm) 
+          ? (empty) 
+            ? ''
+            : `Showing results for ${searchTerm}`
+          :'Popular Items'}
       </h2>
 
       
@@ -72,7 +85,18 @@ const SearchContainer = () => {
               );
             })} 
           </div>
-        : <Loading/>
+        : (empty) 
+          ? <div>
+            <h1 className={importedClasses.title} style={{textAlign: 'center'}}>
+            <br/>
+            <i class="fas fa-sad-tear"></i> 
+            <br/>
+            No results found 
+            <br/>
+            Add your own!
+            </h1>
+          </div>
+          : <Loading/>
       }
     
   </div>

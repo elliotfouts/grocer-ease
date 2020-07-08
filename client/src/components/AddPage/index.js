@@ -24,6 +24,11 @@ const useStyles = makeStyles({
   backdrop: {
       zIndex: '100',
       color: '#fff',
+      '& h1': {
+        fontWeight: '400',
+        textAlign: 'center',
+        margin: '1rem',
+      }
   },
   dialogueButton: {
     color: '#ffcb74',
@@ -39,27 +44,41 @@ const AddPage = () => {
 
   const classes = useStyles();
   const { id } = useParams();
+  const debouncedSuggestImages = useCallback(_.debounce(function() {suggestImages(...arguments)}, 1000), []);
+
+  const setImageUrl = async (url) => {
+    const groceryWithImage = {...grocery, imageUrl: url}
+    setGrocery(groceryWithImage);
+    handleImagesDialogClose(groceryWithImage);
+    }
 
   const handleInputChange = async (event) => {
     let newValue = event.target.value;
     let newValueKey = event.target.name || 'category';
+    if (newValueKey === 'name' && newValue !== grocery.name)
+      debouncedSuggestImages(grocery.brand, newValue, grocery.category)
     setGrocery({...grocery, [newValueKey]:newValue});
-  }
+    setSuggested({...suggested, hasSeenGroceries: false, hasSeenImages: false});
+    }
   const handleSubmit = async () => {
     const isValidFields = validateFields();
 
     if (isValidFields) {
       const suggestedGroceries = await getSuggestedGroceries(grocery.name);
       const duplicate = await getDuplicate(grocery.name);
+      console.log(duplicate);
+      console.log(duplicate !== false);
 
       if (suggestedGroceries.length > 0 && suggested.hasSeenGroceries === false && id == 'new') {
         setSuggested({...suggested, suggestedGroceries});
       }
-      else if (duplicate && id == 'new') {
+      else if (duplicate !== false) {
+        console.log('duplicate hit');
         setToast({open: true, severity: 'error', content: 'grocery name must be unique'});
       }
       else if (id === 'new') {
-        suggestImages(grocery.brand, grocery.name, grocery.category,);
+        createGrocery(grocery);
+        window.open('/groceries', '_self');
       }
       else {
         updateGrocery(id, {...grocery, isCurrent: true});
@@ -72,17 +91,15 @@ const AddPage = () => {
       return;
     }
     setToast({...message, open: false});
-  };
+    };
   const handleGroceriesDialogClose = () => {
     setSuggested({...suggested, hasSeenGroceries: true});
     setDialog({...dialog, open: false});
-  };
+    };
   const handleImagesDialogClose = (groceryWithImage) => {
     setSuggested({...suggested, hasSeenImages: true});
     setDialog({...dialog, open: false});
-    createGrocery(groceryWithImage);
-    window.open('/groceries', '_self');
-  };
+    };
   const validateFields = () => {
     const {name, category, quantity} = grocery;
     let field = '';
@@ -99,19 +116,17 @@ const AddPage = () => {
       return false;
     } else  
       return true;
-  }
+    }
   const suggestImages = async (brand, name, category) => {
-    await setLoading(true);
+    // await setLoading(true);
     let suggestedImages = await getSuggestedImages(brand, name, category);
-    await setLoading(false);
+    // await setLoading(false);
     setSuggested({...suggested, suggestedImages});
-  }
-  const setImageUrl = async (url) => {
-    const groceryWithImage = {...grocery, imageUrl: url}
-    setGrocery(groceryWithImage);
-    handleImagesDialogClose(groceryWithImage);
-  }
+    }
 
+
+  
+  
   useEffect(()=>{
     (async ()=> {
       const {source, iscurrent} = queryString.parse(window.location.search);
@@ -126,6 +141,7 @@ const AddPage = () => {
   return (
     <div>
       <Backdrop className={classes.backdrop} open={loading}>
+        <h1> Finding Images </h1>
         <CircularProgress color="inherit" />
       </Backdrop>
       <Snackbar open={message.open} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} onClose={handleMessageClose}>
