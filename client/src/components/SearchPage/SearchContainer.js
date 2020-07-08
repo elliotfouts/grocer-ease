@@ -5,6 +5,7 @@ import {InputOutlined } from '../Modified/Input';
 import FoodCard from './FoodCard';
 import {getGroceries} from '../../utils/API'
 import {Styles} from '../styles';
+import Loading from '../Loading'
 
 const useStyles = makeStyles({
   grid: {
@@ -56,26 +57,23 @@ const SearchContainer = () => {
       <InputOutlined value={searchTerm} onChange={handleInputChange} placeholder={'search for a food...'} icon={<SearchIcon/>}/>
 
       <h2 className={classes.searchResultsTerm}> 
-        {
-          (searchTerm)
-          ? (`Showing results for ${searchTerm}`)
-          :'Popular Items'
-        }
+        {(searchTerm) ? (`Showing results for ${searchTerm}`) :'Popular Items'}
       </h2>
 
-      <div className={classes.grid}>
+      
       { 
         (searchedGroceries.length > 0)
-        ? searchedGroceries.map((grocery) => {
-          return (
-            <a className={importedClasses.link} href={`/groceries/${grocery._id}`}>
-              <FoodCard brand={grocery.brand} name={grocery.name} imageUrl={grocery.imageUrl}/>
-            </a>
-          );
-        })
-        : <h2>display popular groceries</h2>
+        ? <div className={classes.grid}>
+            {searchedGroceries.map((grocery) => {
+              return (
+                <a className={importedClasses.link} href={`/groceries/${grocery._id}?iscurrent=${grocery.isCurrent}&source=searchpage`}>
+                  <FoodCard brand={grocery.brand} name={grocery.name} imageUrl={grocery.imageUrl}/>
+                </a>
+              );
+            })} 
+          </div>
+        : <Loading/>
       }
-      </div>
     
   </div>
   );

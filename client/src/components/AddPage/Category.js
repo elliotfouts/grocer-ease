@@ -24,7 +24,7 @@ const Category = (props) => {
 
   return (
     <Select className={classes.root} variant='outlined' onChange={onChange} autoWidth={true} value={category || 'category'} defaultValue={category || 'category'}>
-      {<option selected disabled value={'category'} key={-1}>{'category'}</option>}
+      {<option disabled value={'category'} key={-1}>{'category'}</option>}
       {categories.map((categoryName, index) => <option value={categoryName} key={index}>{categoryName}</option>)}
     </Select>
   )

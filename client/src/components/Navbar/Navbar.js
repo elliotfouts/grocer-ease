@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from '@material-ui/icons/Search';
 import ListIcon from '@material-ui/icons/List';
 import {makeStyles} from '@material-ui/styles';
 import {Styles} from '../styles';
@@ -27,7 +28,7 @@ const Navbar = () => {
       <div>
         <a href='/groceries/search'>
         <IconButton aria-label="add">
-          <AddIcon />
+          <SearchIcon />
         </IconButton>
         </a>
         <a href='/groceries'>

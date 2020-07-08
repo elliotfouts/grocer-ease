@@ -15,6 +15,30 @@ export const getGroceryById = async (id) => {
   return data[0];
 }
 
+export const getSuggestedGroceries = async (name) => {
+  const {data} = await axios.get(`/api/groceries/search/${name}`);
+  return data;
+}
+
+export const getSuggestedImages = async (brand, name, category) => {
+  const {data} = await axios.get(`/api/groceries/suggestimages?brand=${brand}&name=${name}&category=${category}`);
+  return data;
+}
+
+export const getDuplicate = async (name) => {
+  let possibleDuplicates = await getSuggestedGroceries(name);
+  let duplicate = false;
+  
+  possibleDuplicates.forEach(element => {
+    if (element.name.toLowerCase() == name.toLowerCase()) {
+      console.log('exact duplicate found: ' + element.name)
+      duplicate = element;
+    }
+  });
+  
+  return duplicate;
+}
+
 export const updateGrocery = (id, grocery) => {
   return axios.put(`/api/groceries/${id}`, grocery);
 }

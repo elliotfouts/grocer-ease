@@ -15,6 +15,7 @@ const Names = (props) => {
   return (
     <div className={classes.root}>
       <InputPlain onChange={onChange} placeholder={'Brand (optional)'} name={'brand'} value={brand}/>
+
       <InputPlain onChange={onChange} placeholder={'Food name'} name={'name'} value={name}/>
   </div>
   )

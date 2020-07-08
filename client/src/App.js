@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import AddPage from './components/AddPage';
 import SearchPage from './components/SearchPage';
 import ListPage from './components/ListPage';
+import Loading from './components/Loading'
 
 
 function App() {
@@ -15,14 +16,17 @@ function App() {
           <Route exact path='/groceries/search'>
             <SearchPage/>
           </Route>
-          <Route exact path='/groceries/:id'>
+          <Route exact path='/groceries/:id/'>
             <AddPage/>
           </Route>
           <Route exact path='/groceries'>
             <ListPage/>
           </Route>
-          <Route exact path='/*'>
-            <LoginPage/>
+          <Route exact path='/groceries'>
+            <ListPage/>
+          </Route>
+          <Route exact path='/loading'>
+            <Loading/>
           </Route>
         </Switch>
       </Navbar>

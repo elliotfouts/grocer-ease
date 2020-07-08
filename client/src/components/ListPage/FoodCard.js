@@ -41,7 +41,7 @@ const FoodCard = (props) => {
   const importedClasses = Styles();
 
   return (
-    <a className={`${importedClasses.link} ${classes.root}`} href={`/groceries/${_id}`}>
+    <a className={`${importedClasses.link} ${classes.root}`} href={`/groceries/${_id}?iscurrent=true&source=listpage`}>
       <Card>
         <Grid container alignItems='center' justify='space-between'>
           <div className={classes.foodInfo}>

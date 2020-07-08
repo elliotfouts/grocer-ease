@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   Grocery: {addGrocery, getAllGroceries, getCurrentGroceries, getSearchedGroceries, updateGrocery, deleteGrocery}
 } = require('../controllers'); 
+const Scraper = require('images-scraper');
 
 // get routes
 router.get('/groceries', async (request, response) => {
@@ -26,6 +27,54 @@ router.get('/groceries/current', async (request, response) => {
     response.status(500).json({error: "Oops! Something went wrong; a team on ninjas is on it"});
   }
 });
+router.get('/groceries/suggestimages', async (request, response) => {
+  const { query: {brand, name, category}} = request;
+
+  const google = new Scraper({
+    puppeteer: {
+      headless: true,
+    }
+  });
+  try {
+    let suggestedImages;
+    switch(category) {
+      case 'produce': {
+        suggestedImages = await google.scrape(`${brand} ${name} produce walmart`, 6);
+        break;
+      }
+      case 'dry snacks': 
+      case 'meat':
+      case 'dairy/eggs':
+      case 'baking/spices': 
+      case 'beverages': 
+      case 'personal care':
+      case 'other': {
+        let googleQuery;
+        console.log(typeof brand)
+
+        if (brand == 'undefined') {
+          googleQuery = `${name} walmart`;
+          console.log('brand query', googleQuery);
+        } else {
+          googleQuery = `${brand} ${name} walmart`;
+          console.log('brand query', googleQuery);
+        }
+        
+
+        suggestedImages = await google.scrape(googleQuery, 6);
+        break;
+      }
+    }
+    
+    if (suggestedImages) 
+      response.json(suggestedImages)
+    else 
+      response.status(404).json({error: 'no images found', message: 'are you sure that name makes sense?'})
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({error: "Oops! Something went wrong; a team on ninjas is on it"});
+  }
+})
 router.get('/groceries/:_id', async (request, response) => {
   try {
     const {_id} = request.params;
