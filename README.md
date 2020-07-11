@@ -1,4 +1,4 @@
-# React Grocery List
+# Grocer-ease
 [Demo](https://drive.google.com/file/d/1AVGWSh-yev6b12TczLxtEjiAsRRYwOWS/view?usp=sharing)
 ### Introduction
 During the Covid 19 Pandemic, my family had trouble organizing grocery lists and my mother was becoming overwhelmed by constant random text messages containing bits and pieces of recipes. I was in the middle of a quarter of school so I built a super quick JQuery and SQL grocery list which can be viewed [here](). However, after a couple weeks of use I began to wonder how I could improve both the UI and the backend. In my addition, problems arose such as not knowing which family members added certain items and ambiguity over which products to purchase. I solved these problem by building Grocer-ease. By providing Oauth sign in strategies as well as local authentication options, I can track who added what as well as collect timestamps. By web scraping google images, I can provide automated specificity to items on the list. 
